@@ -1,0 +1,19 @@
+# Build Stage: Build bot using the alpine image
+FROM golang:1.20-alpine AS builder
+RUN apk add --no-cache curl wget gnupg git upx
+WORKDIR /app
+COPY . .
+RUN CGO_ENABLED=0 GOOS=`go env GOHOSTOS` GOARCH=`go env GOHOSTARCH` go build -o out/melissa -ldflags="-w -s" .
+RUN upx --brute out/melissa
+
+# Run Stage: Run bot using the bot binary copied from build stage
+FROM alpine
+COPY --from=builder /app/out/melissa /app/melissa
+ENTRYPOINT ["/app/melissa"]
+
+LABEL org.opencontainers.image.authors="Nicky Lalrochhara <nickylalrochhara917@gmail.com>"
+LABEL org.opencontainers.image.url="https://famhawiteinfosys.github.io"
+LABEL org.opencontainers.image.source="https://github.com/famhawiteinfosys/melissa"
+LABEL org.opencontainers.image.title="melissa Go Telegram Bot"
+LABEL org.opencontainers.image.description="Official melissa Go Telegram Bot Docker Image"
+LABEL org.opencontainers.image.vendor="FamhawiteInfosys"

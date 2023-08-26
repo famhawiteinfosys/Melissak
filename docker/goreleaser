@@ -1,0 +1,10 @@
+FROM alpine
+COPY melissa /
+ENTRYPOINT ["/melissa"]
+
+LABEL org.opencontainers.image.authors="Nicky Lalrochhara <nickylalrochhara917@gmail.com>"
+LABEL org.opencontainers.image.url="https://famhawiteinfosys.github.io"
+LABEL org.opencontainers.image.source="https://github.com/famhawiteinfosys/melissa"
+LABEL org.opencontainers.image.title="melissa Go Telegram Bot"
+LABEL org.opencontainers.image.description="Official melissa Go Telegram Bot Docker Image"
+LABEL org.opencontainers.image.vendor="FamhawiteInfosys"
